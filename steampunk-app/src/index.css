@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 25 68% 5%;
+    --foreground: 50 58% 86%;
+    --card: 25 68% 5%;
+    --card-foreground: 50 58% 86%;
+    --popover: 25 68% 5%;
+    --popover-foreground: 50 58% 86%;
+    --primary: 50 58% 86%;
+    --primary-foreground: 24 9.8% 10%;
+    --secondary: 22 53% 24%;
+    --secondary-foreground: 50 58% 86%;
+    --muted: 22 53% 24%;
+    --muted-foreground: 24 5.4% 63.9%;
+    --accent: 22 53% 24%;
+    --accent-foreground: 50 58% 86%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 50 58% 86%;
+    --border: 22 53% 24%;
+    --input: 22 53% 24%;
+    --ring: 24 5.7% 82.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+:root {
+  font-family: "Crimson Pro", serif;
+  overflow-x: hidden;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Alegreya SC";
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #5e351d;
+  border-radius: 3px;
+}
+
+.background-overlay {
+  background-image: url("steampunk-overlay.webp");
+}
