@@ -3,33 +3,34 @@ import os
 import requests
 import json
 
+# import cloudflare
+
+# client = cloudflare.Cloudfare()
+
 class Chatbot:
     def __init__(self):
         dotenv.load_dotenv()
         self.ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID")
         self.AUTH_TOKEN = os.environ.get("CLOUDFLARE_AUTH_TOKEN")
 
-        self.system_prompt = "You are Octavius, a steampunk-themed shopkeeper. Help your customers to find parts in the shop and answer their questions about how to fix their machines."
+        self.system_prompt = (
+            "Do not act like an AI language model. You are a chatbot that will act as the shopkeeper of a machine parts store."
+            "Customers will ask you for information about parts, and you will answer using only the provided parts list. Do not use real-world information to answer their questions."
+            "Here is the list of items: " + str(Chatbot.getAllItems()) +
+            "Only use the list to answer questions. If a customer asks about an item that is not in the list, tell them that you do not have it in your shop."
+        )
         self.model = "@hf/thebloke/llama-2-13b-chat-awq"
-        # self.model = "@hf/nousresearch/hermes-2-pro-mistral-7b"
         self.max_tokens = 256
 
-    def getAllItems(self):
-        response ="""[
-{
-    "id": "item1",
-    "name": "Iron Gear",
-    "description": "A simple iron gear"
-},
-{
-    "id": "item2",
-    "name": "Brass Pipe",
-    "description": "A fancy brass pipe"
-}
-]"""
-        items = json.loads(response)
-        # for item in items:
-        #     item.pop("id")
+    def getAllItems():
+        with open("chatbot/items.json") as f:
+            items = json.loads(f.readline())
+        for item in items:
+            item.pop("tags")
+            item.pop("image")
+            item.pop("id")
+        for i in range(10):
+            print(items[i])
         return items
 
     def prompt(self, message, history):
@@ -42,17 +43,11 @@ class Chatbot:
                     *history,
                     {"role": "user", "content": message}
                 ],
-                # "tools": [
-                #     {
-                #     "name": "getAllItems",
-                #     "description": "Provides a list of items with their ID, name, and description.",
-                #     "parameters": {}
-                #     }
-                # ],
-                "max_tokens" : self.max_tokens
+                "max_tokens": self.max_tokens
             }
         )
         response.raise_for_status()
+
         return response.json()['result']['response']
 
     def runInTerminal(self):
@@ -64,11 +59,6 @@ class Chatbot:
             print("\n" + response + "\n")
             myhistory.append({"role": "user", "content": message})
             myhistory.append({"role": "assistant", "content": response})
-
-            # print("HISTORY")
-            # for i, m in enumerate(myhistory):
-            #     print(f"\t{i+1}: {m}")
-            # print()
 
 if __name__ == '__main__':
     cb = Chatbot()

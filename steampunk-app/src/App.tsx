@@ -1,35 +1,25 @@
-import NavBar from "@/components/NavBar";
-import ChatBubble from "@/components/ChatBubble";
-import ItemCarouselSection from "./components/ItemCarouselSection";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import ChatSidebar from "@/components/ChatSidebar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "@/pages/Layout";
+import Home from "@/pages/home";
+import Basket from "@/pages/Basket";
+import Catalog from "@/pages/Catalog";
+import Profile from "@/pages/Profile";
+import NoPage from "@/pages/NoPage";
+import Item from "./pages/Item";
 
-function App() {
+export default function App() {
   return (
-    <div
-      id="background"
-      className="h-screen bg-[url('steampunk-overlay.webp')] bg-cover bg-fixed bg-center"
-    >
-      <NavBar />
-      <main className="pt-24">
-        <section className="flex h-[calc(100vh-6rem)] flex-col items-center justify-start pt-40">
-          <h1 className="text-center text-6xl font-bold lg:text-7xl">
-            Octavius's Workshop
-          </h1>
-          <p className="mt-4 px-8 text-center text-2xl text-bronze-400">
-            The premier marketplace for mechanical parts
-          </p>
-        </section>
-        <ItemCarouselSection name="Best Sellers" />
-        <ItemCarouselSection name="Cogs & Gears" />
-        <ItemCarouselSection name="Engines" />
-      </main>
-      <SidebarProvider defaultOpen={false}>
-        <ChatBubble />
-        <ChatSidebar />
-      </SidebarProvider>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="catalog" element={<Catalog />} />
+          <Route path="catalog/:itemID" element={<Item />} />
+          <Route path="basket" element={<Basket />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
