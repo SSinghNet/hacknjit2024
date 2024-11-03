@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, DocumentData, getDoc, setDoc } from "firebase/firestore";
 import express from "express";
 import { db } from "../util/db";
 import { instanceOfUser, User } from "../models/user";
@@ -24,7 +24,23 @@ router.get("/:id/items", async (req, res, next) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-        res.json(docSnap.data()["items"]);
+        let userItems: any[] = [];
+        docSnap.data()["items"].forEach(async (item: any) => {
+            let offset = item["_key"]["path"]["offset"];
+            let len = item["_key"]["path"]["len"];
+            let itemPath = "";
+            for (let i = offset; i < len + offset; i++) {
+                itemPath += item["_key"]["path"]["segments"][i] + "/";
+            }
+
+            const itemRef = doc(db, itemPath);
+            const itemSnap = await getDoc(itemRef);
+            userItems.push({ ...itemSnap.data(), id: itemSnap.id });
+            if (userItems.length == docSnap.data()["items"].length) {
+                console.log(userItems);
+                res.json(userItems);
+            }
+        });
         return;
     }
 
@@ -46,7 +62,7 @@ router.post("/", async (req, res, next) => {
 
     await setDoc(
         doc(colRef),
-        { ...body, items: []},
+        { ...body, items: [] },
     );
 
     res.json(req.body);
