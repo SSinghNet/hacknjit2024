@@ -1,9 +1,30 @@
+import { auth, googleProvider } from "@/config/firebase";
+import { signInWithPopup } from "@firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { UserRound } from "lucide-react";
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const [user] = useAuthState(auth);
+
+  const signInWithGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+    }
+  };
+  const signOutWithGoogle = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   return (
     <div
       style={{ backgroundImage: "url('/navbar-background.webp')" }}
@@ -19,17 +40,33 @@ const NavBar = () => {
         src="/temp-logo.png"
         onClick={() => navigate("/")}
         style={{ transitionDuration: "500ms" }}
-        className="size-32 translate-y-[40%] cursor-pointer transition-transform hover:rotate-90 md:translate-x-2.5 lg:translate-y-[32%]"
+        className="absolute left-0 right-0 mx-auto size-32 translate-y-[40%] cursor-pointer transition-transform hover:rotate-90 lg:translate-y-[32%]"
       />
-      <Button
-        variant="outline"
-        onClick={() =>
-          navigate("/", { replace: true, state: { from: "homepage" } })
-        }
-        className="text-xl text-bronze-700 md:text-2xl"
-      >
-        Sign in
-      </Button>
+      {!user ? (
+        <Button
+          variant="outline"
+          onClick={signInWithGoogle}
+          className="text-xl text-bronze-700 md:text-2xl"
+        >
+          Sign in
+        </Button>
+      ) : (
+        <div className="flex items-center justify-center gap-4">
+          <div className="flex gap-2">
+            <UserRound className="stroke-bronze-700" strokeWidth={2} />
+            <p className="text-xl text-bronze-800">
+              Greetings, {user.displayName}
+            </p>
+          </div>
+          <Button
+            variant="ghost"
+            onClick={signOutWithGoogle}
+            className="text-xl text-bronze-700 md:text-2xl"
+          >
+            Sign Out
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
