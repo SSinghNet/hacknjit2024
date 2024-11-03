@@ -7,8 +7,10 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const ItemCarouselSection = ({ name }: { name: string }) => {
+  const navigate = useNavigate();
   return (
     <section className="flex h-screen flex-col items-center">
       <div className="relative flex flex-col items-center">
@@ -43,7 +45,13 @@ const ItemCarouselSection = ({ name }: { name: string }) => {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
-        <Button size="lg" className="mt-8 font-['Alegreya_SC']">
+        <Button
+          size="lg"
+          onClick={() => {
+            navigate("/catalog");
+          }}
+          className="mt-8 font-['Alegreya_SC']"
+        >
           Shop Now
         </Button>
       </div>
