@@ -31,7 +31,7 @@ export default function ChatSidebar() {
         <form>
           <Textarea
             placeholder="Send message..."
-            className="resize-none border-cyan-800 text-lg"
+            className="resize-none border-teal-700 text-lg"
           />
         </form>
       </SidebarFooter>
