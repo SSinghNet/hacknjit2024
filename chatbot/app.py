@@ -1,14 +1,12 @@
-from flask import Flask, request
 from chatbot import Chatbot
-  
-app = Flask(__name__)
+import sys
+import json
+
 cb = Chatbot()
-  
-@app.route('/', methods = ['GET', 'POST']) 
-def prompt(): 
-    if(request.method == 'POST'): 
-        data = request.get_json()
-        return cb.prompt(data['prompt'], data['message_history'])
 
 if __name__ == '__main__': 
-    app.run(debug = True)
+    if len(sys.argv) > 1:
+        jsonData = json.loads(sys.argv[1].replace("'", "\""));
+        print(jsonData)
+        response = cb.prompt(jsonData["prompt"], jsonData["messageHistory"])
+        print(response)
