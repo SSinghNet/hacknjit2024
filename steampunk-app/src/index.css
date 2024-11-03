@@ -28,6 +28,14 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: 12, 6%, 15%;
+    --sidebar-foreground: 50 58% 86%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 50 58% 86%;
+    --sidebar-border: 12, 6%, 15%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -68,6 +76,33 @@ h6 {
   border-radius: 3px;
 }
 
-.background-overlay {
-  background-image: url("steampunk-overlay.webp");
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.fade-in {
+  animation: fadeIn ease-in-out 150ms forwards;
+}
+
+/* Fade-out animation */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.fade-out {
+  animation: fadeOut ease-in-out 150ms forwards;
 }

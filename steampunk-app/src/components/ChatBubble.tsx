@@ -1,10 +1,16 @@
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/components/ui/sidebar";
 
-const ChatPopup = () => {
+const ChatBubble = () => {
+  const { open, toggleSidebar } = useSidebar();
+  const opacity = open ? "fade-out " : "fade-in ";
   return (
     <figure
       style={{ backgroundImage: "url('/parchment.png')" }}
-      className="max:lg:-translate-x-8 fixed bottom-0 right-0 z-40 h-[135px] w-[360px] -translate-y-8 bg-contain bg-no-repeat max-lg:left-0 max-lg:mx-auto"
+      className={
+        opacity +
+        "max:lg:-translate-x-8 fixed bottom-0 right-0 z-40 h-[135px] w-[360px] -translate-y-8 bg-contain bg-no-repeat max-lg:left-0 max-lg:mx-auto"
+      }
     >
       <div className="flex w-max">
         <div className="ml-20 flex w-fit flex-col items-center">
@@ -14,6 +20,7 @@ const ChatPopup = () => {
           <Button
             size="sm"
             variant="outline"
+            onClick={toggleSidebar}
             className="mt-2 w-max font-['Alegreya_SC'] tracking-wide"
           >
             Chat Now
@@ -28,4 +35,4 @@ const ChatPopup = () => {
   );
 };
 
-export default ChatPopup;
+export default ChatBubble;
