@@ -29,8 +29,6 @@ class Chatbot:
             item.pop("tags")
             item.pop("image")
             item.pop("id")
-        for i in range(10):
-            print(items[i])
         return items
 
     def prompt(self, message, history):
