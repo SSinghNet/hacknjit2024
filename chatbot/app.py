@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request
 import chatbot
   
 app = Flask(__name__)
@@ -13,4 +13,4 @@ def prompt():
         return chatbot.prompt(data['prompt'], data['message_history'])
 
 if __name__ == '__main__': 
-    app.run(debug = True) 
+    app.run(debug = True)
