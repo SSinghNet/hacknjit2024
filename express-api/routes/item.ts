@@ -33,19 +33,24 @@ router.post("/", async (req, res, next) => {
     const colRef = collection(db, "items");
     const body = req.body as Item;
 
-    if (!instanceOfItem(body)) {
-        res.status(500).json({
-            "error": "Invalid Item Schema",
-        });
-        return;
+    try {
+
+        if (!instanceOfItem(body)) {
+            res.status(500).json({
+                "error": "Invalid Item Schema",
+            });
+            return;
+        }
+
+        await setDoc(
+            doc(colRef),
+            body,
+        );
+
+        res.json(req.body);
+    } catch {
+        res.status(500).json({ error: "Server Error" });
     }
-
-    await setDoc(
-        doc(colRef),
-        body,
-    );
-
-    res.json(req.body);
 });
 
 
